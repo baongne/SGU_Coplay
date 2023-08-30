@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Coplay SGU Team</title>
+    <link rel="stylesheet" href="client.css">
+</head>
+<body>
+
+    <h1 class="teamName">Coplay SGU Team</h1>
+    <hr>
+    <h2 class="controlName">Remote AI Hand Gesture Control</h2>
+    
+    <div id="part1"> 
+        <h3>1. Find the robot and pair.</h3>
+        <div class="part1--content">
+            <div class="part1--content__lable">
+                <p class="lable">Robot profile:</p>
+                <p class="lable">Connected Robot Name is</p>
+            </div>
+            <div class="part1--content__input">
+                <div>
+                    <select id="robotProfile">
+                        <option value="ESP_CW_001">ESP_CW_001</option>
+                        <option value="RPI_BW_001">RPI_BW_001</option>
+                        <option value="RPI_CL_001">RPI_CL_001</option>
+                        <option value="RPI_CL_002">RPI_CL_002</option>
+                        <option value="RPI_CW_001">RPI_CW_001</option>
+                        <option value="RPI_HA_001">RPI_HA_001</option>
+                        <option value="RPI_HW_001">RPI_HW_001</option>
+                        <option value="JTSN_HW_001">JTSN_HW_001</option>
+                    </select>
+                    <button type="button" class="pairButton button">Pairing</button>
+                </div>
+                <input type="text" class="robotNameInput" value="" placeholder="">          
+                          
+            </div> 
+        </div>        
+    </div>
+
+    <div class="part2">
+        <h3>2. Send the media server information to robot.</h3>
+        <div class="part2--content">
+            <div class="part2--content__lable">
+                <p class="lable">SSID:</p>
+                <p class="lable">Password:</p>
+                <p class="lable">Host:</p>
+                <p class="lable">Port:</p>
+                <p class="lable">Chanel name:</p>
+            </div>      
+            <div class="part2--content__input">
+                <input type="text" id="ssidInput" value="" placeholder="">
+                <input type="password" id="passwordInput" value="" placeholder="">
+                <input type="text" id="hostInput" value="" placeholder="">
+                <input type="text" id="PortInput" value="" placeholder="">
+                <div>
+                    <input type="text" id="chanelNameInput" value="" placeholder="">
+                    <button type="button" class="sendButton button">Send</button>
+                </div>   
+            </div>
+        </div>
+    </div>
+
+    <div class="part3">
+        <h3>3. Send control command using hand gesture.</h3>
+        <div class="part3-videoBox">
+            <div class="cameraPlace">
+                <p class="cameraLabel">Camera from Client</p>
+                <p class="cameraLabel">Camera from Robot</p>
+            </div>
+            <div class="screenCamera">
+                <video id="videoGesture" autoplay muted></video>
+                <video id="videoRobot" autoplay></video>
+                <script src="https://cdn.socket.io/4.3.1/socket.io.min.js"></script>
+                <script>
+                    const socket = io()
+                    function captureVideo() {
+                        const videoElement = document.getElementById('videoElement')
+                        const stream = videoElement.captureStream()
+                        const videoTrack = stream.getVideoTrack()[0]
+                        
+                        const mediaRecorder = new MediaRecorder(stream)
+                        mediaRecorder.ondataavailable = (event) => {
+                            if (event.data && event.data.size > 0) {
+                                socket.emit('video', event.data)
+                            }
+                        }
+                        mediaRecorder.start()
+                    }
+                    // Nhan video tu server va hien thi len client
+                    socket.on('clientVideo', (data) => {
+                        const videoElement = document.getElementById('videoElement')
+                        videoElement.srcObject = data
+                    })
+                </script>
+                
+            </div>
+                
+        </div>
+        <button type="button" class="openWebSocketButton button" >Open</button>
+        <button type="button" class="stopWebSocketButton button">Stop</button>
+    </div>
+
+    
+</body>
+
+
+
+</html>
