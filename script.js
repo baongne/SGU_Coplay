@@ -26,8 +26,6 @@ function onButtonClick() {
       options.filters = filters;
     }
   
-    log('Requesting Bluetooth Device...');
-    log('with ' + JSON.stringify(options));
     navigator.bluetooth.requestDevice(options)
     .then(device => {
       log('> Name:             ' + device.name);
