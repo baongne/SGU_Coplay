@@ -20,7 +20,7 @@ function onButtonClick() {
     }
   
     let options = {};
-    if (document.querySelector('#allDevices').checked) {
+    if (document.querySelector('#allDevice').checked) {
       options.acceptAllDevices = true;
     } else {
       options.filters = filters;
