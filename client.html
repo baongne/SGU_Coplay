@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,8 @@
     <title>Coplay SGU Team</title>
     <link rel="stylesheet" href="client.css">
 </head>
-<body>
 
+<body>
     <h1 class="teamName">Coplay SGU Team</h1>
     <hr>
     <h2 class="controlName">Remote AI Hand Gesture Control</h2>
@@ -32,10 +33,9 @@
                         <option value="RPI_HW_001">RPI_HW_001</option>
                         <option value="JTSN_HW_001">JTSN_HW_001</option>
                     </select>
-                    <button type="button" class="pairButton button">Pairing</button>
+                    <button type="button" id="pairButton" class="button">Pairing</button>
                 </div>
-                <input type="text" class="robotNameInput" value="" placeholder="">          
-                          
+                <input type="text" class="robotNameInput" value="" placeholder="">                        
             </div> 
         </div>        
     </div>
@@ -54,10 +54,10 @@
                 <input type="text" id="ssidInput" value="" placeholder="">
                 <input type="password" id="passwordInput" value="" placeholder="">
                 <input type="text" id="hostInput" value="" placeholder="">
-                <input type="text" id="PortInput" value="" placeholder="">
+                <input type="text" id="portInput" value="" placeholder="">
                 <div>
                     <input type="text" id="chanelNameInput" value="" placeholder="">
-                    <button type="button" class="sendButton button">Send</button>
+                    <button onclick="sendMediaServerInfo()" type="button" class="sendButton" class="button">Send</button>
                 </div>   
             </div>
         </div>
@@ -71,41 +71,15 @@
                 <p class="cameraLabel">Camera from Robot</p>
             </div>
             <div class="screenCamera">
-                <video id="videoGesture" autoplay muted></video>
-                <video id="videoRobot" autoplay></video>
-                <script src="https://cdn.socket.io/4.3.1/socket.io.min.js"></script>
-                <script>
-                    const socket = io()
-                    function captureVideo() {
-                        const videoElement = document.getElementById('videoElement')
-                        const stream = videoElement.captureStream()
-                        const videoTrack = stream.getVideoTrack()[0]
-                        
-                        const mediaRecorder = new MediaRecorder(stream)
-                        mediaRecorder.ondataavailable = (event) => {
-                            if (event.data && event.data.size > 0) {
-                                socket.emit('video', event.data)
-                            }
-                        }
-                        mediaRecorder.start()
-                    }
-                    // Nhan video tu server va hien thi len client
-                    socket.on('clientVideo', (data) => {
-                        const videoElement = document.getElementById('videoElement')
-                        videoElement.srcObject = data
-                    })
-                </script>
-                
-            </div>
-                
+                <video type='video/mp4' id="videoClient" autoplay muted></video>
+                <video type='video/mp4' id="videoRobot" autoplay></video>
+            </div>            
         </div>
-        <button type="button" class="openWebSocketButton button" >Open</button>
-        <button type="button" class="stopWebSocketButton button">Stop</button>
+        <button onclick="openCamera()" id="openButton" class="button">Open</button>
+        <button onclick="stopCamera()" id="stopButton" class="button" disabled>Stop</button>
     </div>
-
-    
+    <script src="video.js"></script>
+    <script src="server.js"></script>
 </body>
-
-
-
+ 
 </html>
