@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./script.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <label for="allDevices">All Devices</label>
+        <input id="allDevices" type="checkbox">
+        <input id="service" type="text" size=17 list="services" placeholder="Bluetooth Service">
+        <input id="name" type="text" size=17 placeholder="Device Name">
+        <input id="namePrefix" type="text" size=17 placeholder="Device Name Prefix">
+        <button>Get Bluetooth Device Info</button>
+      </form>
+</body>
+<script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+      event.stopPropagation();
+      event.preventDefault();
+  
+      if (isWebBluetoothEnabled()) {
+        ChromeSamples.clearLog();
+        onButtonClick();
+      }
+    });
+  </script>
+</html>
