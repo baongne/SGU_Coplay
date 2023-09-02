@@ -213,3 +213,5 @@ server.listen(3000, () => {
 //     openButton.addEventListener("click", openWebSocket);
 //     stopButton.addEventListener("click", stopCamera);
 //   });
+// dasdas
+// dasdasdas
