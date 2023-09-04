@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Coplay SGU Team</title>
-    <link rel="stylesheet" href="client.css">
+    <link rel="stylesheet" href="/client.css">
 </head>
 
 <body>
@@ -18,7 +18,7 @@
         <h3>1. Find the robot and pair.</h3>
         <div class="part1--content">
             <div class="part1--content__lable">
-                <p class="lable">Robot profile:</p>
+                <p class="label">Robot profile:</p>
                 <p class="lable">Connected Robot Name is</p>
             </div>
             <div class="part1--content__input">
@@ -42,6 +42,7 @@
 
     <div class="part2">
         <h3>2. Send the media server information to robot.</h3>
+        
         <div class="part2--content">
             <div class="part2--content__lable">
                 <p class="lable">SSID:</p>
@@ -57,7 +58,7 @@
                 <input type="text" id="portInput" value="" placeholder="">
                 <div>
                     <input type="text" id="chanelNameInput" value="" placeholder="">
-                    <button onclick="sendMediaServerInfo()" type="button" class="sendButton" class="button">Send</button>
+                    <button type="button" class="sendButton" class="button">Send</button>
                 </div>   
             </div>
         </div>
@@ -70,18 +71,21 @@
                 <p class="cameraLabel">Camera from Client</p>
                 <p class="cameraLabel">Camera from Robot</p>
             </div>
-            <div class="screenCamera">
-                <video type='video/mp4' id="videoClient" autoplay muted></video>
-                <video type='video/mp4' id="videoRobot" autoplay></video>
+            <div id="screenCamera">
+                <video type='video' id="videoClient" autoplay muted></video>
+                <video type='video' id="videoRobot" autoplay></video>
             </div>            
         </div>
-        <button onclick="openCamera()" id="openButton" class="button">Open</button>
+        <button onclick="openCamera()" id="openButton" class="button" >Open</button>
         <button onclick="stopCamera()" id="stopButton" class="button" disabled>Stop</button>
     </div>
-    <script src="video.js"></script>
-    <script src="server.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script> 
+        const socket = io();
+    </script>
+    <script type="module" src="/video.js"></script>
+    <script type="module" src="./bluetooth.js"></script>
 </body>
  
 </html>
-
-

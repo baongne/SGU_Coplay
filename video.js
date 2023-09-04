@@ -4,6 +4,11 @@ const videoRobot = document.getElementById('videoRobot');
 const openButton = document.getElementById('openButton');
 const stopButton = document.getElementById('stopButton');
 
+function handleVideoStream(stream) {
+  // Gửi video từ client lên server
+  socket.emit('videoClient', stream);
+}
+
 function openCamera() {
   // Kiểm tra xem trình duyệt có hỗ trợ truy cập camera không
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -13,9 +18,7 @@ function openCamera() {
       // Gán stream từ camera vào thẻ video
       videoClient.srcObject = stream;
       videoStream = stream;
-      // Lưu trữ stream để sử dụng khi dừng camera
-      // const videoTrack = stream.getVideoTracks()[0];
-      // const videoSender = socket.emit('clientVideo', videoTrack)    
+      handleVideoStream(stream);   
     })
       .catch(function(error) {
         console.error('Lỗi truy cập camera: ', error);
@@ -44,6 +47,4 @@ function stopCamera() {
   // Kích hoạt nút "Open"
   openButton.disabled = false;
 }
-
-
-               
+            
