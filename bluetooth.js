@@ -11,8 +11,8 @@ const UART_TX_CHARACTERISTIC_UUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
 
 const {
   pairButton,
-  sendMediaServerInfoButton,
-  openWebSocketButton,
+  sendButton,
+  openButton,
   stopButton,
 } = initializeDOMElements();
 let {
@@ -25,16 +25,14 @@ let {
 
 function initializeDOMElements() {
   const pairButton = document.getElementById("pairButton");
-  const sendMediaServerInfoButton = document.getElementById(
-    "sendMediaServerInfoButton"
-  );
-  const openWebSocketButton = document.getElementById("openWebSocketButton");
+  const sendButton = document.getElementById("sendButton");
+  const openButton = document.getElementById("openButton");
   const stopButton = document.getElementById("stopButton");
 
   return {
     pairButton,
-    sendMediaServerInfoButton,
-    openWebSocketButton,
+    sendButton,
+    openButton,
     stopButton,
   };
 }
@@ -61,10 +59,10 @@ function initializeVariables() {
 }
 
 async function bluetoothPairing() {
-  const robotSelect = document.getElementById("robotSelect");
+  const robotProfile = document.getElementById("robotProfile");
   const robotNameInput = document.getElementById("robotNameInput");
   device = await connectToBluetoothDevice(
-    deviceNamePrefixMap[robotSelect.value] ?? undefined
+    deviceNamePrefixMap[robotProfile.value] ?? undefined
   );
   robotNameInput.value = device.name;
 }
@@ -74,9 +72,8 @@ function sendMediaServerInfo() {
   const passwordInput = document.getElementById("passwordInput");
   const hostInput = document.getElementById("hostInput");
   const portInput = document.getElementById("portInput");
-  const channelInput = document.getElementById("channelInput");
-
-  const robotSelect = document.getElementById("robotSelect");
+  const channelNameInput = document.getElementById("channelNameInput");
+  const robotProfile = document.getElementById("robotProfile");
 
   networkConfig = {
     ssid: ssidInput.value,
@@ -84,7 +81,7 @@ function sendMediaServerInfo() {
     host: hostInput.value,
     port: portInput.value,
     channel: "instant",
-    channel_name: channelInput.value,
+    channel_name: channelNameInput.value,
   };
 
   const devicePort =
@@ -103,7 +100,7 @@ function sendMediaServerInfo() {
           port: devicePort,
           path: `pang/ws/pub?channel=instant&name=${networkConfig.channel_name}&track=video&mode=bundle`,
         },
-        profile: robotSelect.value,
+        profile: robotProfile.value,
       },
     };
     sendMessageToDeviceOverBluetooth(JSON.stringify(metricData), device);
@@ -191,5 +188,5 @@ document.addEventListener("DOMContentLoaded", () => {
   if (pairButton) {
     pairButton.addEventListener("click", bluetoothPairing); 
   }
-  sendMediaServerInfoButton.addEventListener("click", sendMediaServerInfo);
+  sendButton.addEventListener("click", sendMediaServerInfo);
 });

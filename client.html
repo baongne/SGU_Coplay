@@ -15,11 +15,11 @@
     <h2 class="controlName">Remote AI Hand Gesture Control</h2>
     
     <div id="part1"> 
-        <!-- <h3>1. Find the robot and pair.</h3>
+        <h3>1. Find the robot and pair.</h3>
         <div class="part1--content">
-            <div class="part1--content__lable">
+            <div class="part1--content__label">
                 <p class="label">Robot profile:</p>
-                <p class="label">Connected Robot Name is </p>
+                <p class="label">Connected Robot Name is</p>
             </div>
             <div class="part1--content__input">
                 <div>
@@ -37,43 +37,19 @@
                 </div>
                 <input type="text" class="robotNameInput" value="" placeholder="">                        
             </div> 
-        </div>         -->
-        <section>
-            <h2>1. Find the robot and pair.</h2>
-            <label for="robotSelect">Robot profile: </label>
-            <select id="robotSelect">
-              <option value="ESP_CW_001">ESP_CW_001</option>
-              <option value="RPI_BW_001">RPI_BW_001</option>
-              <option value="RPI_CL_001">RPI_CL_001</option>
-              <option value="RPI_CL_002">RPI_CL_002</option>
-              <option value="RPI_CW_001">RPI_CW_001</option>
-              <option value="RPI_HA_001">RPI_HA_001</option>
-              <option value="RPI_HW_001">RPI_HW_001</option>
-              <option value="JTSN_HW_001">JTSN_HW_001</option>
-            </select>
-            <button id="pairButton">Pairing</button>
-            <br />
-            <label for="">Connected Robot Name is </label>
-            <input
-              type="text"
-              id="robotNameInput"
-              value=""
-              placeholder=""
-              disabled
-            />
-          </section>
+        </div>        
     </div>
 
     <div class="part2">
-        <!-- <h3>2. Send the media server information to robot.</h3>
+        <h3>2. Send the media server information to robot.</h3>
         
         <div class="part2--content">
-            <div class="part2--content__lable">
-                <p class="lable">SSID:</p>
-                <p class="lable">Password:</p>
-                <p class="lable">Host:</p>
-                <p class="lable">Port:</p>
-                <p class="lable">Channel name:</p>
+            <div class="part2--content__label">
+                <p class="label">SSID:</p>
+                <p class="label">Password:</p>
+                <p class="label">Host:</p>
+                <p class="label">Port:</p>
+                <p class="label">Chanel name:</p>
             </div>      
             <div class="part2--content__input">
                 <input type="text" id="ssidInput" value="" placeholder="">
@@ -81,36 +57,9 @@
                 <input type="text" id="hostInput" value="" placeholder="">
                 <input type="text" id="portInput" value="" placeholder="">
                 <div>
-                    <input type="text" id="channelNameInput" value="" placeholder="" disabled>
+                    <input type="text" id="channelNameInput" value="" placeholder="">
                     <button type="button" class="sendButton" class="button">Send</button>
                 </div>   
-            </div>
-        </div> -->
-        <h2>2. Send the media server information to robot.</h2>
-        <div class="form-container">
-            <div class="form-group">
-                <label for="ssidInput">SSID:</label>
-                <input type="text" id="ssidInput" value="" placeholder="" />
-            </div>
-    
-            <div class="form-group">
-                <label for="passwordInput">Password:</label>
-                <input type="password" id="passwordInput" value="" placeholder="" />
-            </div>
-    
-            <div class="form-group">
-                <label for="hostInput">Host:</label>
-                <input type="text" id="hostInput" value="" placeholder="" />
-            </div>
-    
-            <div class="form-group">
-                <label for="portInput">Port:</label>
-                <input type="number" id="portInput" value="" placeholder="" />
-            </div>
-    
-            <div class="form-group">
-                <label for="channelInput">Channel Name:</label>
-                <input type="text" id="channelInput" placeholder="" />
             </div>
         </div>
     </div>
