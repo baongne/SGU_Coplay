@@ -72,7 +72,7 @@ function sendMediaServerInfo() {
   const passwordInput = document.getElementById("passwordInput");
   const hostInput = document.getElementById("hostInput");
   const portInput = document.getElementById("portInput");
-  const chanelNameInput = document.getElementById("chanelNameInput");
+  const channelNameInput = document.getElementById("channelNameInput");
   const robotProfile = document.getElementById("robotProfile");
 
   networkConfig = {
@@ -81,7 +81,7 @@ function sendMediaServerInfo() {
     host: hostInput.value,
     port: portInput.value,
     channel: "instant",
-    channel_name: chanelNameInput.value,
+    channel_name: channelNameInput.value,
   };
 
   const devicePort =
@@ -188,5 +188,5 @@ document.addEventListener("DOMContentLoaded", () => {
   if (pairButton) {
     pairButton.addEventListener("click", bluetoothPairing); 
   }
-  sendMediaServerInfoButton.addEventListener("click", sendMediaServerInfo);
+  sendButton.addEventListener("click", sendMediaServerInfo);
 });
