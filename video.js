@@ -4,6 +4,7 @@ const videoRobot = document.getElementById('videoRobot');
 const openButton = document.getElementById('openButton');
 const stopButton = document.getElementById('stopButton');
 
+
 function handleVideoStream(stream) {
   // Gửi video từ client lên server
   socket.emit('videoClient', stream);
@@ -47,4 +48,37 @@ function stopCamera() {
   // Kích hoạt nút "Open"
   openButton.disabled = false;
 }
+
+// navigator.mediaDevices.getUserMedia({ video: true})
+//   .then(function(streamRobot) {
+//     videoRobot.srcObject = streamRobot
+//   })
+//   .catch(function(error) {
+//     console.error('Lỗi khi truy cập camera của robot:', error);
+//   });
+
+// Kết nối tới robot và nhận video stream
+// const socket = new WebSocket('ws://your-robot-ip-address:your-robot-port');
+// socket.onopen = function() {
+//   console.log('Đã kết nối tới robot');
+// };
+
+// socket.onmessage = function(event) {
+//   // Nhận dữ liệu video từ robot
+//   const videoData = event.data;
+
+//   // Chuyển đổi dữ liệu video thành dạng blob
+//   const videoBlob = new Blob([videoData], { type: 'video/mp4' });
+
+//   // Tạo URL cho blob
+//   const videoURL = URL.createObjectURL(videoBlob);
+
+//   // Hiển thị video trên thẻ video
+//   videoRobot.src = videoURL;
+// };
+
+// socket.onclose = function() {
+//   console.log('Đã đóng kết nối tới robot');
+// };
+
             
