@@ -72,7 +72,16 @@
             </div>
             <div id="screenCamera">
                 <video type='video' id="videoClient" autoplay muted></video>
-                <video type='video' id="videoRobot" data-robot-id="RPI_BW_001" autoplay></video>
+                <div class="box">
+                    <canvas id="canvasElement"></canvas>
+                    <textarea
+                      disabled
+                      name=""
+                      id="messageView"
+                      cols="20"
+                      rows="20"
+                    ></textarea>
+                  </div>
             </div>            
         </div>
         <button onclick="openCamera()" id="openButton" class="button" >Open</button>
