@@ -3,7 +3,7 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 app.use('/socket.io', express.static(__dirname + '/node_modules/socket.io/client-dist'));
-app.use(express.static('C:\\Users\\PC\\Documents\\SGU_Coplay'));
+app.use(express.static('C:\\Users\\PC\\Documents\\SGU Coplay\\SGU_Coplay'));
 
 // Tạo io được hiểu là một socket instance nằm trên server
 const io = require('socket.io')(server);
@@ -24,6 +24,7 @@ io.on('connection', (socket) => {
     socket.on('videoClient', (stream) => {
         // Gui video tu server toi robot
         io.emit('videoRobot', stream)
+        // io.to(robotId).emit('videoRobot', stream);
         console.log('Nhận được video từ client', stream)
     })
     // Xu li event khi robot gui video ve server

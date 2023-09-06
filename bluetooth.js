@@ -190,3 +190,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   sendButton.addEventListener("click", sendMediaServerInfo);
 });
+
+function openWebSocket() {
+  const videoRobot = document.getElementById("videoRobot");
+
+  const path = `pang/ws/sub?channel=instant&name=zugiv&track=video&mode=bundle`;
+  const serverURL = `${
+    window.location.protocol.replace(/:$/, "") === "https" ? "wss" : "ws"
+  }://agilertc.com:8277/${path}`;
+
+  websocket = new WebSocket(serverURL);
+  websocket.binaryType = "arraybuffer";
+  websocket.onopen = async () => {
+    if (device) {
+      await getVideoStream({
+        deviceId: device.id,
+      }).then(async (stream) => {
+        videoRobot.srcObject = stream;
+      });
+    }
+  };
+  displayMessage("Open Video WebSocket");
+}

@@ -41,8 +41,7 @@
     </div>
 
     <div class="part2">
-        <h3>2. Send the media server information to robot.</h3>
-        
+        <h3>2. Send the media server information to robot.</h3>    
         <div class="part2--content">
             <div class="part2--content__label">
                 <p class="label">SSID:</p>
@@ -58,7 +57,7 @@
                 <input type="text" id="portInput" value="" placeholder="">
                 <div>
                     <input type="text" id="channelNameInput" value="" placeholder="">
-                    <button type="button" class="sendButton" class="button">Send</button>
+                    <button type="button" id="sendButton" class="button">Send</button>
                 </div>   
             </div>
         </div>
@@ -73,7 +72,7 @@
             </div>
             <div id="screenCamera">
                 <video type='video' id="videoClient" autoplay muted></video>
-                <video type='video' id="videoRobot" autoplay></video>
+                <video type='video' id="videoRobot" data-robot-id="RPI_BW_001" autoplay></video>
             </div>            
         </div>
         <button onclick="openCamera()" id="openButton" class="button" >Open</button>
