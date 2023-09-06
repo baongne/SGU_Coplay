@@ -24,7 +24,6 @@ io.on('connection', (socket) => {
     socket.on('videoClient', (stream) => {
         // Gui video tu server toi robot
         io.emit('videoRobot', stream)
-        // io.to(robotId).emit('videoRobot', stream);
         console.log('Nhận được video từ client', stream)
     })
     // Xu li event khi robot gui video ve server
