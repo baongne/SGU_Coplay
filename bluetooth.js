@@ -73,7 +73,7 @@ async function bluetoothPairing() {
   const passwordInput = document.getElementById("passwordInput");
   const hostInput = document.getElementById("hostInput");
   const portInput = document.getElementById("portInput");
-  const channelInput = document.getElementById("channelInput");
+  const channelInput = document.getElementById("channelNameInput");
 
   const robotSelect = document.getElementById("robotProfile");
   const robotNameInput = document.getElementById("robotNameInput");

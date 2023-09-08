@@ -84,7 +84,7 @@
                   </div>
             </div>            
         </div>
-        <button onclick="openCamera()" id="openButton" class="button" >Open</button>
+        <button onclick="openCamera(), sendFramesToRobot()" id="openButton" class="button" >Open</button>
         <button onclick="stopCamera()" id="stopButton" class="button" disabled>Stop</button>
     </div>
     
@@ -94,7 +94,7 @@
     </script>
     <script src="./video.js"></script>
     <script type="module" src="./bluetooth.js"></script>
-    <script type="module" src="./script.js"></script>
+    <!-- <script type="module" src="./script.js"></script> -->
 </body>
  
 </html>

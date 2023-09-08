@@ -4,6 +4,7 @@ const videoRobot = document.getElementById('videoRobot');
 const openButton = document.getElementById('openButton');
 const stopButton = document.getElementById('stopButton');
 
+let isSendingFrames = false;
 
 function handleVideoStream(stream) {
   // Gửi video từ client lên server
@@ -17,6 +18,7 @@ function openCamera() {
     navigator.mediaDevices.getUserMedia({ video: true })
       .then(function(stream) {
       // Gán stream từ camera vào thẻ video
+      isSendingFrames = true;
       videoClient.srcObject = stream;
       videoStream = stream;
       handleVideoStream(stream);   
@@ -36,6 +38,7 @@ function openCamera() {
 function stopCamera() {
   if (videoStream) {
     // Dừng stream từ camera
+    isSendingFrames = false;
     videoStream.getTracks().forEach(function(track) {
       track.stop();
     });
@@ -49,36 +52,21 @@ function stopCamera() {
   openButton.disabled = false;
 }
 
-// navigator.mediaDevices.getUserMedia({ video: true})
-//   .then(function(streamRobot) {
-//     videoRobot.srcObject = streamRobot
-//   })
-//   .catch(function(error) {
-//     console.error('Lỗi khi truy cập camera của robot:', error);
-//   });
+function sendFramesToRobot() {
+  const frameRate = 20;
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  canvas.width = videoClient.videoWidth;
+  canvas.height = videoClient.videoHeight;
 
-// Kết nối tới robot và nhận video stream
-// const socket = new WebSocket('ws://your-robot-ip-address:your-robot-port');
-// socket.onopen = function() {
-//   console.log('Đã kết nối tới robot');
-// };
-
-// socket.onmessage = function(event) {
-//   // Nhận dữ liệu video từ robot
-//   const videoData = event.data;
-
-//   // Chuyển đổi dữ liệu video thành dạng blob
-//   const videoBlob = new Blob([videoData], { type: 'video/mp4' });
-
-//   // Tạo URL cho blob
-//   const videoURL = URL.createObjectURL(videoBlob);
-
-//   // Hiển thị video trên thẻ video
-//   videoRobot.src = videoURL;
-// };
-
-// socket.onclose = function() {
-//   console.log('Đã đóng kết nối tới robot');
-// };
-
-            
+  function sendFrameToRobot() {
+    if (isSendingFrames) {
+      context.drawImage(videoClient, 0, 0, canvas.width, canvas.height);
+      const imageData = canvas.toDataURL('image/jpeg');
+      // Gửi dữ liệu hình ảnh lên cho robot thông qua máy chủ moth
+      console.log("Send frames to robot successfully");
+    }
+    setTimeout(sendFrameToRobot, 1000 / frameRate);
+  }
+  sendFrameToRobot();
+}
