@@ -71,7 +71,7 @@
                 <p class="cameraLabel">Camera from Robot</p>
             </div>
             <div id="screenCamera">
-                <video type='video' id="videoClient" autoplay muted></video>
+                <img src="http://127.0.0.1:5000/video" alt="Upload video">
                 <div class="box">
                     <canvas id="canvasElement"></canvas>
                     <textarea
@@ -95,6 +95,7 @@
     <script src="./video.js"></script>
     <script type="module" src="./bluetooth.js"></script>
     <!-- <script type="module" src="./script.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
 </body>
  
 </html>

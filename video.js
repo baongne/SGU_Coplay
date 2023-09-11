@@ -6,10 +6,21 @@ const stopButton = document.getElementById('stopButton');
 
 let isSendingFrames = false;
 
-function handleVideoStream(stream) {
-  // Gửi video từ client lên server
-  socket.emit('videoClient', stream);
-}
+// function handleVideoStream(stream) {
+//   // Gửi video từ client lên server
+//   socket.emit('videoClient', stream);
+// }
+
+var socket1 = io.connect('http://127.0.0.1:5000/');
+socket1.on('connect', function() {
+    socket1.emit('my event', {data: "Hello"})
+});
+
+socket1.on('test event', function(data) {
+    console.log(data['data']);
+    
+});
+
 
 function openCamera() {
   // Kiểm tra xem trình duyệt có hỗ trợ truy cập camera không
@@ -19,7 +30,7 @@ function openCamera() {
       .then(function(stream) {
       // Gán stream từ camera vào thẻ video
       isSendingFrames = true;
-      videoClient.srcObject = stream;
+      // videoClient.srcObject = stream;
       videoStream = stream;
       handleVideoStream(stream);   
     })
