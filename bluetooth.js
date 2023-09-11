@@ -11,8 +11,8 @@ const UART_TX_CHARACTERISTIC_UUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
 
 const {
   pairButton,
-  sendMediaServerInfoButton,
-  openWebSocketButton,
+  sendButton,
+  openButton,
   stopButton,
 } = initializeDOMElements();
 let {
@@ -21,26 +21,21 @@ let {
   networkConfig,
   controlCommandMap,
   lastDirection,
-  startTime,
-  frameQueue,
 } = initializeVariables();
 
 function initializeDOMElements() {
   const pairButton = document.getElementById("pairButton");
-  const sendMediaServerInfoButton = document.getElementById(
-    "sendButton"
-  );
-  const openWebSocketButton = document.getElementById("openButton");
+  const sendButton = document.getElementById("sendButton");
+  const openButton = document.getElementById("openButton");
   const stopButton = document.getElementById("stopButton");
 
   return {
     pairButton,
-    sendMediaServerInfoButton,
-    openWebSocketButton,
+    sendButton,
+    openButton,
     stopButton,
   };
 }
-
 function initializeVariables() {
   let device;
   let websocket;
@@ -54,38 +49,31 @@ function initializeVariables() {
   };
   let lastDirection;
 
-  let startTime = 0;
-  let frameQueue = [];
-
   return {
     device,
     websocket,
     networkConfig,
     controlCommandMap,
     lastDirection,
-    startTime,
-    frameQueue,
   };
 }
 
 async function bluetoothPairing() {
-  const ssidInput = document.getElementById("ssidInput");
-  const passwordInput = document.getElementById("passwordInput");
-  const hostInput = document.getElementById("hostInput");
-  const portInput = document.getElementById("portInput");
-  const channelInput = document.getElementById("channelNameInput");
-
-  const robotSelect = document.getElementById("robotProfile");
+  const robotProfile = document.getElementById("robotProfile");
   const robotNameInput = document.getElementById("robotNameInput");
-
   device = await connectToBluetoothDevice(
-    deviceNamePrefixMap[robotSelect.value] ?? undefined
+    deviceNamePrefixMap[robotProfile.value] ?? undefined
   );
   robotNameInput.value = device.name;
 }
 
 function sendMediaServerInfo() {
-  const robotSelect = document.getElementById("robotProfile");
+  const ssidInput = document.getElementById("ssidInput");
+  const passwordInput = document.getElementById("passwordInput");
+  const hostInput = document.getElementById("hostInput");
+  const portInput = document.getElementById("portInput");
+  const channelNameInput = document.getElementById("channelNameInput");
+  const robotProfile = document.getElementById("robotProfile");
 
   networkConfig = {
     ssid: ssidInput.value,
@@ -93,7 +81,7 @@ function sendMediaServerInfo() {
     host: hostInput.value,
     port: portInput.value,
     channel: "instant",
-    channel_name: "zugiv",
+    channel_name: channelNameInput.value,
   };
 
   const devicePort =
@@ -112,70 +100,11 @@ function sendMediaServerInfo() {
           port: devicePort,
           path: `pang/ws/pub?channel=instant&name=${networkConfig.channel_name}&track=video&mode=bundle`,
         },
-        profile: robotSelect.value,
+        profile: robotProfile.value,
       },
     };
     sendMessageToDeviceOverBluetooth(JSON.stringify(metricData), device);
   }
-}
-
-function handleChunk(frame) {
-  const canvasElement = document.getElementById("canvasElement");
-
-  drawVideoFrameOnCanvas(canvasElement, frame);
-  frame.close();
-}
-
-async function openWebSocket() {
-
-  const path = `pang/ws/sub?channel=instant&name=zugiv&track=video&mode=bundle`;
-  const serverURL = `${
-    window.location.protocol.replace(/:$/, "") === "https" ? "wss" : "ws"
-  }://agilertc.com:8276/${path}`;
-
-  websocket = new WebSocket(serverURL);
-  websocket.binaryType = "arraybuffer";
-  websocket.onopen = () => {
-    if (device) {
-      document.addEventListener("keydown", handleKeyDown);
-      document.addEventListener("keyup", handleKeyUp);
-    }
-  };
-  displayMessage("Open Video WebSocket");
-
-  const videoDecoder = new VideoDecoder({
-    output: handleChunk,
-    error: (error) => console.error(error),
-  });
-
-  const videoDecoderConfig = {
-    codec: "avc1.42E03C",
-  };
-
-  if (!(await VideoDecoder.isConfigSupported(videoDecoderConfig))) {
-    throw new Error("VideoDecoder configuration is not supported.");
-  }
-
-  videoDecoder.configure(videoDecoderConfig);
-
-  websocket.onmessage = (e) => {
-    try {
-      if (videoDecoder.state === "configured") {
-        const encodedChunk = new EncodedVideoChunk({
-          type: "key",
-          data: e.data,
-          timestamp: e.timeStamp,
-          duration: 0,
-        });
-
-        videoDecoder.decode(encodedChunk);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  keepWebSocketAlive(websocket);
 }
 
 function stop() {
@@ -255,95 +184,31 @@ async function sendMessageToDeviceOverBluetooth(message, device) {
   }
 }
 
-function drawVideoFrameOnCanvas(canvas, frame) {
-  console.log("drawing video frame on canvas");
-  
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-
-  ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
-}
-
-async function handleKeyDown(e) {
-  const direction = controlCommandMap[e.code];
-  if (direction === lastDirection) return;
-  lastDirection = direction;
-
-  const controlCommand = {
-    type: "control",
-    direction,
-  };
-
-  if (websocket && websocket.readyState === WebSocket.OPEN) {
-    websocket.send(JSON.stringify(controlCommand));
-    displayMessage(direction);
-  }
-}
-
-async function handleKeyUp(e) {
-  const direction = "STOP";
-  if (direction === lastDirection) return;
-  lastDirection = direction;
-
-  const controlCommand = {
-    type: "control",
-    direction,
-  };
-
-  if (websocket && websocket.readyState === WebSocket.OPEN) {
-    websocket.send(JSON.stringify(controlCommand));
-    displayMessage(direction);
-  }
-}
-
-function displayMessage(messageContent) {
-  const messageView = document.getElementById("messageView");
-
-  if (typeof messageContent == "object") {
-    messageContent = JSON.stringify(messageContent);
-  }
-  messageView.innerHTML += `${messageContent}\n`;
-  messageView.scrollTop = messageView.scrollHeight;
-}
-
-function keepWebSocketAlive(webSocket, interval) {
-  const pingInterval = interval ?? 10000;
-  let pingTimer;
-
-  function sendPing() {
-    if (webSocket.readyState === WebSocket.OPEN) {
-      webSocket.send("ping");
-    }
-  }
-
-  function schedulePing() {
-    pingTimer = setInterval(sendPing, pingInterval);
-  }
-
-  function handlePong() {}
-
-  function handleWebSocketClose() {
-    clearInterval(pingTimer);
-  }
-
-  webSocket.addEventListener("open", () => {
-    schedulePing();
-  });
-
-  webSocket.addEventListener("message", (event) => {
-    if (event.data === "pong") {
-      handlePong();
-    }
-  });
-
-  webSocket.addEventListener("close", () => {
-    handleWebSocketClose();
-  });
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-  pairButton.addEventListener("click", bluetoothPairing);
-  sendMediaServerInfoButton.addEventListener("click", sendMediaServerInfo);
-  openWebSocketButton.addEventListener("click", openWebSocket);
-  stopButton.addEventListener("click", stop);
+  if (pairButton) {
+    pairButton.addEventListener("click", bluetoothPairing); 
+  }
+  sendButton.addEventListener("click", sendMediaServerInfo);
 });
+
+function openWebSocket() {
+  const videoRobot = document.getElementById("videoRobot");
+
+  const path = `pang/ws/sub?channel=instant&name=zugiv&track=video&mode=bundle`;
+  const serverURL = `${
+    window.location.protocol.replace(/:$/, "") === "https" ? "wss" : "ws"
+  }://agilertc.com:8277/${path}`;
+
+  websocket = new WebSocket(serverURL);
+  websocket.binaryType = "arraybuffer";
+  websocket.onopen = async () => {
+    if (device) {
+      await getVideoStream({
+        deviceId: device.id,
+      }).then(async (stream) => {
+        videoRobot.srcObject = stream;
+      });
+    }
+  };
+  displayMessage("Open Video WebSocket");
+}
