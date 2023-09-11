@@ -93,7 +93,7 @@ function sendMediaServerInfo() {
     host: hostInput.value,
     port: portInput.value,
     channel: "instant",
-    channel_name: channelInput.value,
+    channel_name: "zugiv",
   };
 
   const devicePort =
