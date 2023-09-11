@@ -18,8 +18,16 @@ socket1.on('connect', function() {
 
 socket1.on('test event', function(data) {
     console.log(data['data']);
-    
+    keyboardEmulator(data['data']);
 });
+
+
+function keyboardEmulator(data) {
+  if(data == "go") {
+    $write.html($write.html() + 'w');
+  }
+
+}
 
 
 function openCamera() {
