@@ -3,7 +3,8 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 app.use('/socket.io', express.static(__dirname + '/node_modules/socket.io/client-dist'));
-app.use(express.static('C:\\Users\\Nguyen Ngoc Huy\\OneDrive\\Documents\\GitHub\\SGU_Coplay'));
+URL = "./SGU_Coplay";
+app.use(express.static(URL));
 
 // Tạo io được hiểu là một socket instance nằm trên server
 const io = require('socket.io')(server);
