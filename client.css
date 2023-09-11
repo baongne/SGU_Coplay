@@ -57,3 +57,16 @@ video {
     flex-direction: column;
     justify-content: space-around;
 }
+div.box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+    margin-bottom: 1em;
+  }
+  canvas {
+    background-color: #f0f0f0;
+    max-width: 100%;
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
