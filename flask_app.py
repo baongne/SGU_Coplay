@@ -73,6 +73,7 @@ def video_detection(path_x):
         cap = cv2.VideoCapture(video_capture)
         model = YOLO("best.pt")
         classNames = ["go", "stop"]
+        # classNames = ['Hitsuji-Ram-', 'I-Boar-', 'Inu-Dog-', 'Mi-Snake-', 'Ne-Rat-', 'Saru-Monkey-', 'Tatsu-Dragon-', 'Tora-Tiger-', 'Tori-Bird-', 'U-Hare-', 'Uma-Horse-', 'Ushi-Ox-']
         while True:
             _, img = cap.read()
             results = model.predict(img, stream=True)

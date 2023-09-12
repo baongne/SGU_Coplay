@@ -306,7 +306,7 @@ socket2.on('test event', function(data) {
       sendcontrol('N');
     }
     if (data['data'] == "stop") {
-      sendcontrol('S');
+      sendcontrol('M');
     }
 });
 
