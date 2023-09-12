@@ -55,7 +55,6 @@ from flask_socketio import SocketIO, emit, send
 from ultralytics import YOLO
 import json
 import cv2
-from pyautogui import press, typewrite, hotkey
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
@@ -83,10 +82,10 @@ def video_detection(path_x):
                     print(type(box))
                     class_name = classNames[int(box.cls[0])]                    
                     socketio.emit("test event", {'data': class_name})
-                    if(class_name == "go"):
-                        press('w')
-                    if(class_name == "stop"):
-                        press('s')
+                    # if(class_name == "go"):
+                    #     press('w')
+                    # if(class_name == "stop"):
+                    #     press('s')
                     
                     
             yield img
