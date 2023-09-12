@@ -279,6 +279,36 @@ async function handleKeyDown(e) {
     displayMessage(direction);
   }
 }
+async function sendcontrol(e) {
+  const direction = e;
+  if (direction === lastDirection) return;
+  lastDirection = direction;
+
+  const controlCommand = {
+    type: "control",
+    direction,
+  };
+
+  if (websocket && websocket.readyState === WebSocket.OPEN) {
+    websocket.send(JSON.stringify(controlCommand));
+    displayMessage(direction);
+  }
+}
+
+var socket2 = io.connect('http://127.0.0.1:5000/');
+socket2.on('connect', function() {
+    socket2.emit('my event', {data: "Hello"})
+});
+
+socket2.on('test event', function(data) {
+    console.log(data['data']);
+    if (data['data'] == "go") {
+      sendcontrol('N');
+    }
+    if (data['data'] == "stop") {
+      sendcontrol('S');
+    }
+});
 
 async function handleKeyUp(e) {
   const direction = "STOP";
