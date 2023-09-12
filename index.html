@@ -118,19 +118,25 @@
                         <h3> ------</h3>
                         <p class="cameraLabel">Camera from Robot</p>
                     </div>
-                    <div id="screenCamera">
-                        <video type='video' id="videoClient" autoplay muted></video>
-                        <div class="box">
-                            <canvas id="canvasElement"></canvas>
-                            <textarea
-                              disabled
-                              name=""
-                              id="messageView"
-                              cols="20"
-                              rows="20"
-                            ></textarea>
-                          </div>
-                    </div>            
+                    <div class="box">
+                    <div class="screenCamera">
+                        <img src="http://127.0.0.1:5000/video" alt="Upload video" class="Camera_img">
+                    </div>     
+                    <div class="screenCamera">
+                        <canvas id="canvasElement"></canvas>                            
+                    </div>
+                    </div>
+
+                
+                    <div>
+                        <textarea
+                          disabled
+                          name=""
+                          id="messageView"
+                          cols="20"
+                          rows="20"
+                        ></textarea>
+                    </div>       
                 </div>
                 <button onclick="openCamera(), sendFramesToRobot()" id="openButton" class="button" >Open</button>
         <button onclick="stopCamera()" id="stopButton" class="button" disabled>Stop</button>
@@ -143,13 +149,12 @@
     
     
     
-    <script src="/socket.io/socket.io.js"></script>
-    <script> 
-        const socket = io();
-    </script>
+   
     <script src="./video.js"></script>
     <script type="module" src="./bluetooth.js"></script>
     <!-- <script type="module" src="./script.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
 </body>
  
 </html>
