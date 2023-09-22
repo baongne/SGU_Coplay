@@ -51,6 +51,8 @@ function initializeVariables() {
     KeyS: "S",
     KeyD: "CW",
     KeyM: "STOP",
+    KeyQ: "L",
+    KeyE:"R",
   };
   let lastDirection;
 
@@ -302,11 +304,20 @@ socket2.on('connect', function() {
 
 socket2.on('test event', function(data) {
     console.log(data['data']);
-    if (data['data'] == "go") {
+    if (data['data'] == "like") {
       sendcontrol('N');
     }
-    if (data['data'] == "stop") {
-      sendcontrol('M');
+    else if (data['data'] == "hura") {
+      sendcontrol('L');
+    }
+    else if (data['data'] == "c") {
+      sendcontrol('R');
+    }
+    else if (data['data'] == "hi") {
+      sendcontrol('S');
+    }
+    else if (data['data'] == "bunch") {
+      sendcontrol('STOP');
     }
 });
 
