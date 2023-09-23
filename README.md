@@ -1,3 +1,4 @@
+
 # hand-gesture-recognition-using-mediapipe
 Estimate hand pose using MediaPipe (Python version).<br> This is a sample 
 program that recognizes hand signs and finger gestures with a simple MLP using the detected key points.
@@ -148,3 +149,12 @@ Nikita Kiselov(https://github.com/kinivi)
  
 # License 
 hand-gesture-recognition-using-mediapipe is under [Apache v2 license](LICENSE).
+=======
+# SGU_Coplay
+First, you need to directly change the path to the 'sgu_coplay' folder in the 'version.js' file
+
+Afterwards, install the Ultralytics, Flask, and Flask-SocketIO environments using the following pip commands:
+pip install ultralytics
+pip install Flask
+pip install Flask-SocketIO
+
