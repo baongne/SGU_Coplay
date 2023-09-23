@@ -81,7 +81,9 @@ function sendMediaServerInfo() {
     host: hostInput.value,
     port: portInput.value,
     channel: "instant",
-    channel_name: channelNameInput.value,
+
+    channel_name: "zugiv",
+
   };
 
   const devicePort =
@@ -184,9 +186,165 @@ async function sendMessageToDeviceOverBluetooth(message, device) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  if (pairButton) {
-    pairButton.addEventListener("click", bluetoothPairing); 
+
+function drawVideoFrameOnCanvas(canvas, frame) {
+  console.log("drawing video frame on canvas");
+  
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+}
+
+async function handleKeyDown(e) {
+  const direction = controlCommandMap[e.code];
+  if (direction === lastDirection) return;
+  lastDirection = direction;
+
+  const controlCommand = {
+    type: "control",
+    direction,
+  };
+
+  if (websocket && websocket.readyState === WebSocket.OPEN) {
+    websocket.send(JSON.stringify(controlCommand));
+    displayMessage(direction);
+  }
+}
+async function sendcontrol(e) {
+  const direction = e;
+  if (direction === lastDirection) return;
+  lastDirection = direction;
+
+  const controlCommand = {
+    type: "control",
+    direction,
+  };
+
+  if (websocket && websocket.readyState === WebSocket.OPEN) {
+    websocket.send(JSON.stringify(controlCommand));
+    displayMessage(direction);
+  }
+}
+
+var socket2 = io.connect('http://127.0.0.1:5000/');
+socket2.on('connect', function() {
+    socket2.emit('my event', {data: "Hello"})
+});
+
+socket2.on('test event', function(data) {
+  console.log(data['data']);
+  // Đi thẳng
+  if (data['data'] == "LopenRopen" ||data['data'] == "RopenLopen"||data['data'] == "Ropen"||data['data'] == "Lopen" ) {
+    sendcontrol('N');
+  }
+  // Đi chéo tới phải
+  else if (data['data'] == "LopenRhi" ||data['data'] == "RhiLopen") {
+    sendcontrol('FL');
+  }
+  // Đi quẹo phải
+  else if (data['data'] == "LopenRgun" ||data['data'] == "RgunLopen") {
+    sendcontrol('FCW');
+  }
+  // Đi qua phải không xoay
+  else if (data['data'] == "LopenRpunch" ||data['data'] == "RpunchLopen") {
+    sendcontrol('L');
+  }
+  // Đi chéo tới trái
+  else if (data['data'] == "LhiRopen" ||data['data'] == "RopenLhi") {
+    sendcontrol('FR');
+  }
+  // Đi quẹo trái
+  else if (data['data'] == "LgunRopen" ||data['data'] == "RopenLgun") {
+    sendcontrol('FCC');
+  }
+  // Đi qua trái không xoay
+  else if (data['data'] == "RopenLpunch" ||data['data'] == "LpunchRopen") {
+    sendcontrol('R');
+  }
+  
+  
+  // Tại Chỗ
+  //Dừng
+  else if (data['data'] == "LpunchRpunch" ||data['data'] == "RpunchLpunch"||data['data'] == "Lpunch"||data['data'] == "Rpunch") {
+    sendcontrol('STOP');
+  }
+  // Xoay Trái
+  else if (data['data'] == "LhiRpunch" ||data['data'] == "RpunchLhi") {
+    sendcontrol('CCW');
+  }
+  // Xoay Phải
+  else if (data['data'] == "RhiLpunch" ||data['data'] == "LpunchRhi") {
+    sendcontrol('CW');
+  }
+  
+  
+  
+  // Đi Lùi
+  else if (data['data'] == "LpointerRpointer" ||data['data'] == "RpointerLpointer" ||data['data'] == "Rpointer" ||data['data'] == "Lpointer") {
+    sendcontrol('S');
+  }
+  // Đi Lùi Chéo Phải
+  else if (data['data'] == "LpointerRhi" ||data['data'] == "RhiLpointer" ) {
+    sendcontrol('BL');
+  }
+  // Đi Lùi Quẹo Phải
+  else if (data['data'] == "LpointerRgun" ||data['data'] == "RgunLpointer" ) {
+    sendcontrol('BCC');
+  }
+  // Đi Lùi Chéo Trái
+  else if (data['data'] == "LhiRpointer" ||data['data'] == "RpointerLhi") {
+    sendcontrol('BR');
+  }
+  // Đi Lùi Quẹo Trái
+  else if (data['data'] == "LgunRpointer" ||data['data'] == "RpointerLgun") {
+    sendcontrol('BCW');
+  }
+  
+  
+  
+  
+});
+
+async function handleKeyUp(e) {
+  const direction = "STOP";
+  if (direction === lastDirection) return;
+  lastDirection = direction;
+
+  const controlCommand = {
+    type: "control",
+    direction,
+  };
+
+  if (websocket && websocket.readyState === WebSocket.OPEN) {
+    websocket.send(JSON.stringify(controlCommand));
+    displayMessage(direction);
+  }
+}
+
+function displayMessage(messageContent) {
+  const messageView = document.getElementById("messageView");
+
+  if (typeof messageContent == "object") {
+    messageContent = JSON.stringify(messageContent);
+  }
+  messageView.innerHTML += `${messageContent}\n`;
+  messageView.scrollTop = messageView.scrollHeight;
+}
+
+function keepWebSocketAlive(webSocket, interval) {
+  const pingInterval = interval ?? 10000;
+  let pingTimer;
+
+  function sendPing() {
+    if (webSocket.readyState === WebSocket.OPEN) {
+      webSocket.send("ping");
+    }
+  }
+
+  function schedulePing() {
+    pingTimer = setInterval(sendPing, pingInterval);
+
   }
   sendButton.addEventListener("click", sendMediaServerInfo);
 });

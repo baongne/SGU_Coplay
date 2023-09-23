@@ -77,8 +77,17 @@
             <div id="screenCamera">
                 <img src="http://127.0.0.1:5000/video" alt="Upload video">
 
-                  
-                <video type='video' id="videoRobot" data-robot-id="RPI_BW_001" autoplay></video>
+                <div class="box">
+                    <canvas id="canvasElement"></canvas>
+                    <textarea
+                      disabled
+                      name=""
+                      id="messageView"
+                      cols="20"
+                      rows="20"
+                    ></textarea>
+                  </div>
+
             </div>            
         </div>
         <!-- <button onclick="openCamera()" id="openButton" class="button">Open</button>
@@ -95,8 +104,10 @@
     </script>
     <script src="./video.js"></script>
     <script type="module" src="./bluetooth.js"></script>
-    <script type="module" src="./script.js"></script>
+
+    <!-- <script type="module" src="./script.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
 
 </body>
  
