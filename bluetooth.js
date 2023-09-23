@@ -301,13 +301,77 @@ socket2.on('connect', function() {
 });
 
 socket2.on('test event', function(data) {
-    console.log(data['data']);
-    if (data['data'] == "go") {
-      sendcontrol('N');
-    }
-    if (data['data'] == "stop") {
-      sendcontrol('M');
-    }
+  console.log(data['data']);
+  // Đi thẳng
+  if (data['data'] == "LopenRopen" ||data['data'] == "RopenLopen"||data['data'] == "Ropen"||data['data'] == "Lopen" ) {
+    sendcontrol('N');
+  }
+  // Đi chéo tới phải
+  else if (data['data'] == "LopenRhi" ||data['data'] == "RhiLopen") {
+    sendcontrol('FL');
+  }
+  // Đi quẹo phải
+  else if (data['data'] == "LopenRgun" ||data['data'] == "RgunLopen") {
+    sendcontrol('FCW');
+  }
+  // Đi qua phải không xoay
+  else if (data['data'] == "LopenRpunch" ||data['data'] == "RpunchLopen") {
+    sendcontrol('L');
+  }
+  // Đi chéo tới trái
+  else if (data['data'] == "LhiRopen" ||data['data'] == "RopenLhi") {
+    sendcontrol('FR');
+  }
+  // Đi quẹo trái
+  else if (data['data'] == "LgunRopen" ||data['data'] == "RopenLgun") {
+    sendcontrol('FCC');
+  }
+  // Đi qua trái không xoay
+  else if (data['data'] == "RopenLpunch" ||data['data'] == "LpunchRopen") {
+    sendcontrol('R');
+  }
+  
+  
+  // Tại Chỗ
+  //Dừng
+  else if (data['data'] == "LpunchRpunch" ||data['data'] == "RpunchLpunch"||data['data'] == "Lpunch"||data['data'] == "Rpunch") {
+    sendcontrol('STOP');
+  }
+  // Xoay Trái
+  else if (data['data'] == "LhiRpunch" ||data['data'] == "RpunchLhi") {
+    sendcontrol('CCW');
+  }
+  // Xoay Phải
+  else if (data['data'] == "RhiLpunch" ||data['data'] == "LpunchRhi") {
+    sendcontrol('CW');
+  }
+  
+  
+  
+  // Đi Lùi
+  else if (data['data'] == "LpointerRpointer" ||data['data'] == "RpointerLpointer" ||data['data'] == "Rpointer" ||data['data'] == "Lpointer") {
+    sendcontrol('S');
+  }
+  // Đi Lùi Chéo Phải
+  else if (data['data'] == "LpointerRhi" ||data['data'] == "RhiLpointer" ) {
+    sendcontrol('BL');
+  }
+  // Đi Lùi Quẹo Phải
+  else if (data['data'] == "LpointerRgun" ||data['data'] == "RgunLpointer" ) {
+    sendcontrol('BCC');
+  }
+  // Đi Lùi Chéo Trái
+  else if (data['data'] == "LhiRpointer" ||data['data'] == "RpointerLhi") {
+    sendcontrol('BR');
+  }
+  // Đi Lùi Quẹo Trái
+  else if (data['data'] == "LgunRpointer" ||data['data'] == "RpointerLgun") {
+    sendcontrol('BCW');
+  }
+  
+  
+  
+  
 });
 
 async function handleKeyUp(e) {
