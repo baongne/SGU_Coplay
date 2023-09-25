@@ -1,6 +1,6 @@
-let videoStream; // Biến lưu trữ stream từ camera
-const videoClient = document.getElementById('videoClient');
+// let videoStream; // Biến lưu trữ stream từ camera
 const videoRobot = document.getElementById('videoRobot');
+
 const openButton = document.getElementById('openButton');
 const stopButton = document.getElementById('stopButton');
 
@@ -9,10 +9,12 @@ const stopButton = document.getElementById('stopButton');
 
 let isSendingFrames = false;
 
+
 // function handleVideoStream(stream) {
 //   // Gửi video từ client lên server
 //   socket.emit('videoClient', stream);
 // }
+
 
 var socket1 = io.connect('http://127.0.0.1:5000/');
 socket1.on('connect', function() {
@@ -87,3 +89,4 @@ function sendFramesToRobot() {
   }
   sendFrameToRobot();
 }
+
