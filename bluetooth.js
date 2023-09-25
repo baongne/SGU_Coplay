@@ -369,6 +369,10 @@ socket2.on('test event', function(data) {
     sendcontrol('BCW');
   }
   
+  else if (data['data'] == "RgunLgun" ||data['data'] == "LgunRgun") {
+    sendcontrol('TURN180');
+  }
+  
   
   
   
