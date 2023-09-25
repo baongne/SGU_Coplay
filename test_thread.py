@@ -6,6 +6,7 @@ import json
 import cv2
 import math
 import time
+import threading
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
@@ -65,6 +66,8 @@ def main():
     
     text = ""
     tempText = text
+    check_thread = threading.Thread(target=check_and_count)
+
     
     cap_device = args.device
     cap_width = args.width
@@ -121,7 +124,6 @@ def main():
 
     #  ########################################################################
     mode = 0
-
     while True:
         fps = cvFpsCalc.get()
 
@@ -194,10 +196,33 @@ def main():
                     point_history_classifier_labels[most_common_fg_id[0][0]],
                 )
                 
-                
             print(text)
             
-            socketio.emit("test event", {'data': text})
+            if text != "":
+                if tempText != text:
+                    if text == "LgunRgun" or text == "RgunLgun":
+                        if not check_thread.is_alive():
+                            check_thread = threading.Thread(target=check_and_count)
+                            socketio.emit("test event", {'data': text})
+                            check_thread.start()
+                        else:
+                            print("2. Khong cho truyen gg")
+                            
+                    else:
+                        socketio.emit("test event", {'data': text})
+                        
+            if text!="":
+                if tempText == text:
+                    if text == "LgunRgun" or text == "RgunLgun":  
+                        if check_thread.is_alive():    
+                            print("Khong cho truyeng")   
+                        else:
+                            check_thread = threading.Thread(target=check_and_count)
+                            socketio.emit("test event", {'data': text})
+                            check_thread.start()
+                            
+                    else:
+                        socketio.emit("test event", {'data': text})
             
             
             
@@ -219,6 +244,8 @@ def main():
 
     cap.release()
 
+def check_and_count():
+    time.sleep(3)
 
 def select_mode(key, mode):
     number = -1
