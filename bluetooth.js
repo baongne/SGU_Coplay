@@ -347,7 +347,7 @@ function keepWebSocketAlive(webSocket, interval) {
 
   }
   sendButton.addEventListener("click", sendMediaServerInfo);
-});
+};
 
 function openWebSocket() {
   const videoRobot = document.getElementById("videoRobot");
