@@ -57,7 +57,6 @@ video {
     flex-direction: column;
     justify-content: space-around;
 }
-
 div.box {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -80,4 +79,3 @@ div.box {
     height: 100%;
 
   }
-

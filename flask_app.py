@@ -1,4 +1,3 @@
-
 # from flask import Flask, Response
 # from flask_socketio import SocketIO, emit, send
 # from ultralytics import YOLO
@@ -56,9 +55,7 @@ from flask_socketio import SocketIO, emit, send
 from ultralytics import YOLO
 import json
 import cv2
-
 import math
-
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
@@ -78,12 +75,10 @@ def video_detection(path_x):
         model=YOLO("modelAI7.pt")
         classNames = ['bunch', 'c', 'hd1', 'hi', 'hura', 'jutsu', 'like', 'love']  #modelAI3
         # classNames = ['Hitsuji-Ram-', 'I-Boar-', 'Inu-Dog-', 'Mi-Snake-', 'Ne-Rat-', 'Saru-Monkey-', 'Tatsu-Dragon-', 'Tora-Tiger-', 'Tori-Bird-', 'U-Hare-', 'Uma-Horse-', 'Ushi-Ox-']
-
         while True:
             _, img = cap.read()
             results = model.predict(img, stream=True)
             for r in results:
-
                 boxes = r.boxes
                 for box in boxes :
                     x1,y1,x2,y2=box.xyxy[0]
@@ -100,7 +95,6 @@ def video_detection(path_x):
                     c2 = x1 + t_size[0], y1 - t_size[1] - 3
                     cv2.rectangle(img, (x1,y1), c2, [255,0,255], -1, cv2.LINE_AA)  # filled
                     cv2.putText(img, label, (x1,y1-2),0, 1,[255,255,255], thickness=1,lineType=cv2.LINE_AA)
-
                     
             yield img
 
