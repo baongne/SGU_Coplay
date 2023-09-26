@@ -370,13 +370,21 @@ socket2.on('test event', function(data) {
   }
   
   else if (data['data'] == "RgunLgun" ||data['data'] == "LgunRgun") {
-    sendcontrol('TURN180');
+    turn180();
   }
   
-  
-  
-  
 });
+ 
+async function turn180(){
+  for (let i = 0; i < 3; i++) {
+    // Gửi lệnh
+    await sendcontrol("CW");
+
+    // Ngủ 1s
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+  }
+
+}
 
 async function handleKeyUp(e) {
   const direction = "STOP";
