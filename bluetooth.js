@@ -379,11 +379,14 @@ async function turn180(){
   for (let i = 0; i < 3; i++) {
     // Gửi lệnh
     await sendcontrol("CW");
+    console.log("Gui CW")
 
     // Ngủ 1s
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-  }
+    await new Promise((resolve) => setTimeout(resolve, 480));
+    console.log("Doi 0,56s")
 
+  }
+  sendcontrol("STOP")
 }
 
 async function handleKeyUp(e) {
