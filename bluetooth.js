@@ -386,6 +386,16 @@ async function turn180(){
     console.log("Doi 0,56s")
 
   }
+  for (let i = 0; i < 3; i++) {
+    // Gửi lệnh
+    await sendcontrol("L");
+    console.log("Gui L")
+
+    // Ngủ 1s
+    await new Promise((resolve) => setTimeout(resolve, 480));
+    console.log("Doi 0,56s")
+
+  }
   sendcontrol("STOP")
 }
 

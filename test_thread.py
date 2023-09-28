@@ -245,7 +245,7 @@ def main():
     cap.release()
 
 def check_and_count():
-    time.sleep(3)
+    time.sleep(7)
 
 def select_mode(key, mode):
     number = -1
