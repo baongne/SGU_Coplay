@@ -213,7 +213,7 @@ def main():
                         
             if text!="":
                 if tempText == text:
-                    if text == "LgunRgun" or text == "RgunLgun":  
+                    if text == "LgunRgun" or text == "RgunLgun" or text == "RhiLgun"or text == "LgunRhi" or text == "RgunLhi"or text == "LhiRgun":  
                         if check_thread.is_alive():    
                             print("Khong cho truyeng")   
                         else:

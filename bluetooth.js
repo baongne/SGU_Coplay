@@ -51,6 +51,7 @@ function initializeVariables() {
     KeyS: "S",
     KeyD: "CW",
     KeyM: "STOP",
+    KeyL: "RESET",
   };
   let lastDirection;
 
@@ -367,14 +368,22 @@ socket2.on('test event', function(data) {
   // Đi Lùi Quẹo Trái
   else if (data['data'] == "LgunRpointer" ||data['data'] == "RpointerLgun") {
     sendcontrol('BCW');
-  }
+  } 
   
+  else if (data['data'] == "RhiLgun" ||data['data'] == "LgunRhi") {
+    turn180_L();
+  }
+  else if (data['data'] == "RgunLhi" ||data['data'] == "LhiRgun") {
+    turn180_R();
+  }
   else if (data['data'] == "RgunLgun" ||data['data'] == "LgunRgun") {
     turn180();
   }
-  
+  else if (data['data'] == "RhiLhi" ||data['data'] == "LhiRhi") {
+    sendcontrol('RESET');
+  }
 });
- 
+
 async function turn180(){
   for (let i = 0; i < 3; i++) {
     // Gửi lệnh
@@ -386,7 +395,21 @@ async function turn180(){
     console.log("Doi 0,56s")
 
   }
+  sendcontrol("STOP")
+}
+ 
+async function turn180_L(){
   for (let i = 0; i < 3; i++) {
+    // Gửi lệnh
+    await sendcontrol("CW");
+    console.log("Gui CW")
+
+    // Ngủ 1s
+    await new Promise((resolve) => setTimeout(resolve, 480));
+    console.log("Doi 0,56s")
+
+  }
+  for (let i = 0; i < 2; i++) {
     // Gửi lệnh
     await sendcontrol("L");
     console.log("Gui L")
@@ -398,6 +421,31 @@ async function turn180(){
   }
   sendcontrol("STOP")
 }
+
+async function turn180_R(){
+  for (let i = 0; i < 3; i++) {
+    // Gửi lệnh
+    await sendcontrol("CW");
+    console.log("Gui CW")
+
+    // Ngủ 1s
+    await new Promise((resolve) => setTimeout(resolve, 480));
+    console.log("Doi 0,56s")
+
+  }
+  for (let i = 0; i < 2; i++) {
+    // Gửi lệnh
+    await sendcontrol("L");
+    console.log("Gui L")
+
+    // Ngủ 1s
+    await new Promise((resolve) => setTimeout(resolve, 480));
+    console.log("Doi 0,56s")
+
+  }
+  sendcontrol("STOP")
+}
+
 
 async function handleKeyUp(e) {
   const direction = "STOP";
